@@ -1,5 +1,5 @@
-#ifndef FUNCTIONS
-#define FUNCTIONS 
+#ifndef FLIP_H
+#define FLIP_H
 
 /* function to initialise sigma */
 double initsigma(double rand);

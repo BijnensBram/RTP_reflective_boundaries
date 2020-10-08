@@ -1,7 +1,3 @@
-#include <iostream>
-#include <cmath>
-#include <random>
-/* #include "move.h" */
 #include "flip.h"
 
 /* function to initialise sigma */
