@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <random>
-#include "move.h"
+/* #include "move.h" */
 #include "flip.h"
 
 /* function to initialise sigma */
@@ -11,5 +11,13 @@ double initsigma(double rand){
 		return +1;
 	} else {
 		return -1;
+	}
+}
+
+double fliptest(double a, double dt, double rand){
+	if (rand < a*dt){
+		return -1;
+	} else {
+		return 1;
 	}
 }
