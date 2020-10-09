@@ -25,6 +25,6 @@ double initc_5opt(double rand){
 /* function to initialise c out of two options */
 double initc_2opt(double rand){
 	if (rand < 0.5) return 1;
-	else return 2;
+	else return 3.14159265359;
 }
 
