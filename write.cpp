@@ -11,19 +11,19 @@ using namespace std;
 void writefunc(std::string xfilename, double xdata, std::string cfilename, double cdata, std::string sigmafilename, double sigmadata){
 	/* write x data */
 	ofstream xFile;
-	xFile.open(xfilename.c_str());
+	xFile.open(xfilename.c_str(),ios_base::app);
 	xFile << ";" << xdata;
 	xFile.close();
 	
 	/* write c data */
 	ofstream cFile;
-	cFile.open(cfilename.c_str());
+	cFile.open(cfilename.c_str(),ios_base::app);
 	cFile << ";" << cdata;
 	cFile.close();
 	
 	/* write sigma data */
 	ofstream sigmaFile;
-	sigmaFile.open(sigmafilename.c_str());
+	sigmaFile.open(sigmafilename.c_str(),ios_base::app);
 	sigmaFile << ";" << sigmadata;
 	sigmaFile.close();
 }

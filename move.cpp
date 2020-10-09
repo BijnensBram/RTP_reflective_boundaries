@@ -13,10 +13,17 @@ void movefunc(double &x,double c,double &sigma, double l, double dt, double epsi
 	x += (sigma*c*dt);
 }
 
-double initc(double rand){
+/* function to initialise c out of five options */
+double initc_5opt(double rand){
 	if (rand < 0.2) return 0.5;
 	else if (rand < 0.4) return 1;
 	else if (rand < 0.6) return 1.5;
 	else if (rand < 0.8) return 2;
 	else return 2.5;
+}
+
+/* function to initialise c out of two options */
+double initc_2opt(double rand){
+	if (rand < 0.5) return 1;
+	else return 2;
 }

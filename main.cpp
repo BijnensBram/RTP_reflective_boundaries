@@ -62,7 +62,7 @@ int main(int argc, char *argv[]){
 	for (int i=0; i<npart; i++){
 		x[i] = distx(rng);
 		rand = dist(rng);
-		c[i] = initc(rand);
+		c[i] = initc_2opt(rand);
 		rand = dist(rng);
 		sigma[i] = initsigma(rand);
 		epsilon[i] = 1.01*c[i]*dt;
