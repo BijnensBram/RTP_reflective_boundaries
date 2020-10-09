@@ -5,6 +5,7 @@
 #include "write.h"
 #include "move.h"
 #include "flip.h"
+/* #include "pulse.h" */
 
 using namespace std;
 
@@ -15,6 +16,7 @@ int main(int argc, char *argv[]){
 	/* defining parameters */
 	const double pi = 3.14159265359;
 	int npart;
+	int npulse;
 	double a;
 	double l;
 	double tmax;
@@ -29,8 +31,7 @@ int main(int argc, char *argv[]){
 
 	/* helper variables */
 	double rand;
-	double s;
-	double t;
+	int index;
 	int tt;
 
 	/* initialisation */
@@ -44,6 +45,7 @@ int main(int argc, char *argv[]){
 	cFile = datafolder+"cfile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt";
 	sigmaFile = datafolder+"sigmafile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt";
 	
+	npulse = int(npart/5);
 	double x[npart];
 	double sigma[npart];
 	double c[npart];
@@ -54,6 +56,8 @@ int main(int argc, char *argv[]){
 	std::mt19937 rng(dev());
 	std::uniform_real_distribution<double> dist(0,1);
 	std::uniform_real_distribution<double> distx(0,l);
+	std::uniform_int_distribution<int> distindex(0,npart-1);
+	std::normal_distribution<double> distpulse(l/2,l/10);
 
 	/* print input parameters */
 	PRINTER(a);
@@ -63,14 +67,7 @@ int main(int argc, char *argv[]){
 	PRINTER(npart);
 	
 	for (int i=0; i<npart; i++){
-		/* using hit and miss method to generate random numbers with distribution f(x)=sin^2(x) */
-		t = distx(rng);
-		s = dist(rng);
-		while (sin(pi/l*t)*sin(pi/l*t) < s){
-			t = distx(rng);
-			s = dist(rng);
-		}
-		x[i] = t;
+		x[i] = distx(rng);
 		rand = dist(rng);
 		c[i] = initc_2opt(rand);
 		rand = dist(rng);
@@ -88,6 +85,23 @@ int main(int argc, char *argv[]){
 			sigma[part] = sigma[part]*fliptest(a,dt,rand);
 			movefunc(x[part],c[part],sigma[part],l,dt,epsilon[part]);
 		
+		}
+		/* pulsing with frec1 */
+		if (tt%int(2*l/dt) == 0){
+			for (int i = 0 ; i < npulse; i++){
+				index = distindex(rng);
+				x[index] = distpulse(rng);
+				c[index] = 1;
+			}
+		}
+		
+		/* pulsing with 2*frec2 */
+		if (tt%int(0.5*l/dt) == 0){
+			for (int i = 0 ; i < npulse; i++){
+				index = distindex(rng);
+				x[index] = distpulse(rng);
+				c[index] = 2;
+			}
 		}
 		/* writing out for every 100 steps */
 		if (tt%10 == 0){
