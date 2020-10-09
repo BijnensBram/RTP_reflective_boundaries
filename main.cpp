@@ -27,8 +27,8 @@ int main(int argc, char *argv[]){
 	string datafolder;
 
 	/* helper variables */
-
 	double rand;
+	int tt;
 
 	/* initialisation */
 	a = stod(argv[1]);
@@ -69,31 +69,28 @@ int main(int argc, char *argv[]){
 	}
 	
 	/* simulation */
+	tt = 0;
 	for (double t=0 ; t<=tmax ; t+=dt){
-		/* simulation for first particle */
-		rand = dist(rng);
-		sigma[0] = sigma[0]*fliptest(a,dt,rand);
-		movefunc(x[0],c[0],sigma[0],l,dt,epsilon[0]);
-
-		/* writing the data out for first particle*/
-		writefunc0(xFile,x[0],cFile,c[0],sigmaFile,sigma[0]);
-		
+	
 		/* simulation for all particles */
-		for (int part=1; part < npart-1; part++){
+		for (int part=0; part < npart; part++){
 			rand = dist(rng);
 			sigma[part] = sigma[part]*fliptest(a,dt,rand);
 			movefunc(x[part],c[part],sigma[part],l,dt,epsilon[part]);
 		
-			/* writing the data out*/
-			writefunc(xFile,x[part],cFile,c[part],sigmaFile,sigma[part]);
 		}
-		/* simulation for last particle */
-		rand = dist(rng);
-		sigma[npart-1] = sigma[npart-1]*fliptest(a,dt,rand);
-		movefunc(x[npart-1],c[npart-1],sigma[npart-1],l,dt,epsilon[npart-1]);
-
-		/* writing the data out for last particle*/
-		writefunc_end(xFile,x[npart-1],cFile,c[npart-1],sigmaFile,sigma[npart-1]);
+		/* writing out for every 100 steps */
+		if (tt%100 == 0){
+			/* writing the data out for first particle*/
+			writefunc0(xFile,x[0],cFile,c[0],sigmaFile,sigma[0]);
+			/* writing the data out*/
+			for (int part=1; part < npart-1; part++){
+				writefunc(xFile,x[part],cFile,c[part],sigmaFile,sigma[part]);
+			}
+			/* writing the data out for last particle*/
+			writefunc_end(xFile,x[npart-1],cFile,c[npart-1],sigmaFile,sigma[npart-1]);
+		}
+		tt++;
 	}
 
 }
