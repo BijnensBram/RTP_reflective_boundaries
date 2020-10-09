@@ -1,3 +1,6 @@
 *.o
 *.txt
 *.exe
+*.png
+*.mpv
+*.pdf

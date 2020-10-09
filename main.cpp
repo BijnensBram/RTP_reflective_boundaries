@@ -13,6 +13,7 @@ using namespace std;
 
 int main(int argc, char *argv[]){
 	/* defining parameters */
+	const double pi = 3.14159265359;
 	int npart;
 	double a;
 	double l;
@@ -28,6 +29,8 @@ int main(int argc, char *argv[]){
 
 	/* helper variables */
 	double rand;
+	double s;
+	double t;
 	int tt;
 
 	/* initialisation */
@@ -60,7 +63,14 @@ int main(int argc, char *argv[]){
 	PRINTER(npart);
 	
 	for (int i=0; i<npart; i++){
-		x[i] = distx(rng);
+		/* using hit and miss method to generate random numbers with distribution f(x)=sin^2(x) */
+		t = distx(rng);
+		s = dist(rng);
+		while (sin(pi/l*t)*sin(pi/l*t) < s){
+			t = distx(rng);
+			s = dist(rng);
+		}
+		x[i] = t;
 		rand = dist(rng);
 		c[i] = initc_2opt(rand);
 		rand = dist(rng);
@@ -80,7 +90,7 @@ int main(int argc, char *argv[]){
 		
 		}
 		/* writing out for every 100 steps */
-		if (tt%100 == 0){
+		if (tt%10 == 0){
 			/* writing the data out for first particle*/
 			writefunc0(xFile,x[0],cFile,c[0],sigmaFile,sigma[0]);
 			/* writing the data out*/
@@ -92,5 +102,6 @@ int main(int argc, char *argv[]){
 		}
 		tt++;
 	}
-
+	cout << "done" << endl;
+	return 0;
 }
