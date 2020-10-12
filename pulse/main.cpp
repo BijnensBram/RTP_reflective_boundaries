@@ -86,18 +86,18 @@ int main(int argc, char *argv[]){
 			movefunc(x[part],c[part],sigma[part],l,dt,epsilon[part]);
 		
 		}
-		/* pulsing with frec1 */
-		if (tt%int(2*l/dt) == 0){
-			for (int i = 0 ; i < npulse; i++){
+		/* pulsing with 4frec1 */
+		if (tt%int(0.5*l/dt) == 0){
+			for (int i = 0 ; i < 2*npulse; i++){
 				index = distindex(rng);
 				x[index] = distpulse(rng);
 				c[index] = 1;
 			}
 		}
 		
-		/* pulsing with 2*frec2 */
-		if (tt%int(0.5*l/dt) == 0){
-			for (int i = 0 ; i < npulse; i++){
+		/* pulsing with 6*frec2 */
+		if (tt%int(l/(6*dt)) == 0){
+			for (int i = 0 ; i < int(npulse*0.5); i++){
 				index = distindex(rng);
 				x[index] = distpulse(rng);
 				c[index] = 2;
