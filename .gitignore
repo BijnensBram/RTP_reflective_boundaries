@@ -4,6 +4,7 @@
 *.png
 *.mpv
 *.pdf
+*.mp4
 fig
 note
 test.py

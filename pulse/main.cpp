@@ -28,6 +28,7 @@ int main(int argc, char *argv[]){
 	string cFile;
 	string sigmaFile;
 	string datafolder;
+	string xfilename;
 
 	/* helper variables */
 	double rand;
@@ -41,7 +42,9 @@ int main(int argc, char *argv[]){
 	tmax = stod(argv[4]);
 	npart = stoi(argv[5]);
 	datafolder = argv[6];
-	xFile = datafolder+"xfile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt";
+	xfilename = argv[7];
+	xFile = datafolder+xfilename;
+	/* xFile = datafolder+"xfile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt"; */
 	cFile = datafolder+"cfile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt";
 	sigmaFile = datafolder+"sigmafile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt";
 	
@@ -57,7 +60,7 @@ int main(int argc, char *argv[]){
 	std::uniform_real_distribution<double> dist(0,1);
 	std::uniform_real_distribution<double> distx(0,l);
 	std::uniform_int_distribution<int> distindex(0,npart-1);
-	std::normal_distribution<double> distpulse(l/2,l/10);
+	std::normal_distribution<double> distpulse(l/2,l/20);
 
 	/* print input parameters */
 	PRINTER(a);
@@ -82,27 +85,21 @@ int main(int argc, char *argv[]){
 		/* simulation for all particles */
 		for (int part=0; part < npart; part++){
 			rand = dist(rng);
-			sigma[part] = sigma[part]*fliptest(a,dt,rand);
+			sigma[part] = sigma[part]*fliptest_a_peaks(x[part],a,l,dt,rand);
 			movefunc(x[part],c[part],sigma[part],l,dt,epsilon[part]);
 		
 		}
+
+
 		/* pulsing with 4frec1 */
-		if (tt%int(0.5*l/dt) == 0){
-			for (int i = 0 ; i < 2*npulse; i++){
+		if (tt%int(l/dt) == 0){
+			for (int i = 0 ; i < npulse; i++){
 				index = distindex(rng);
 				x[index] = distpulse(rng);
 				c[index] = 1;
 			}
 		}
 		
-		/* pulsing with 6*frec2 */
-		if (tt%int(l/(6*dt)) == 0){
-			for (int i = 0 ; i < int(npulse*0.5); i++){
-				index = distindex(rng);
-				x[index] = distpulse(rng);
-				c[index] = 2;
-			}
-		}
 		/* writing out for every 100 steps */
 		if (tt%10 == 0){
 			/* writing the data out for first particle*/
