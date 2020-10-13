@@ -15,7 +15,7 @@ def flip(x):
 x = np.linspace(0,l,1000)
 
 blue_patch = mpatches.Patch(color='tab:blue', label=r'$\rho$')
-black_patch = mpatches.PathPatch(color='black', linestyle="-",label=r'$a(x)$')
+black_patch = mpatches.Patch(color='black', linestyle="-",label=r'$a(x)$')
 
 for i in np.linspace(0,int(len(xdata[:,0])),101):
     fig,ax1 = plt.subplots()
@@ -29,5 +29,5 @@ for i in np.linspace(0,int(len(xdata[:,0])),101):
     plt.xlim([0,2])
     plt.legend(handles=[blue_patch,black_patch],frameon=False)
     plt.savefig("./fig/frame"+str(i)+".png",dpi=190)
-    plt.show()
+    # plt.show()
     plt.close()
