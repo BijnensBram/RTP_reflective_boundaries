@@ -72,7 +72,7 @@ int main(int argc, char *argv[]){
 	for (int i=0; i<npart; i++){
 		x[i] = distx(rng);
 		rand = dist(rng);
-		c[i] = initc_2opt(rand);
+		c[i] = 1;
 		rand = dist(rng);
 		sigma[i] = initsigma(rand);
 		epsilon[i] = 1.01*c[i]*dt;
@@ -90,9 +90,8 @@ int main(int argc, char *argv[]){
 		
 		}
 
-
-		/* pulsing with 4frec1 */
-		if (tt%int(l/dt) == 0){
+		/* pulsing with 2frec1 */
+		if (tt%int(l/(4*dt)) == 0){
 			for (int i = 0 ; i < npulse; i++){
 				index = distindex(rng);
 				x[index] = distpulse(rng);

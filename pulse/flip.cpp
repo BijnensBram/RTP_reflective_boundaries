@@ -28,6 +28,6 @@ double fliptest_a_peaks(double x, double a,double l, double dt, double rand){
 }
 
 double a_profile_peaks(double x,double a,double l){
-	return a*(exp(-500*(x-l*0.5)*(x-l*0.25))+exp(-500*(x-l*0.75)*(x-l*0.75)));
+	return a*(exp(-500*(x-l*0.25)*(x-l*0.25))+exp(-500*(x-l*0.75)*(x-l*0.75)));
 }
 
