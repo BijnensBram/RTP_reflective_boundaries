@@ -8,6 +8,11 @@
 
 using namespace std;
 
+double initx_guitare(double t, double l, double pi){
+	/* return 5*sin((pi/l)*t)*sin((pi/l)*t)+sin((0.313*pi/l)*t)*sin((0.313*pi/l)*t)+sin((2/l)*t)*sin((2/l)*t)+sin((3/l)*t)*sin((3/l)*t)+sin((5/l)*t)*sin((5/l)*t)+sin((1/l)*t)*sin((1/l)*t); */
+	return sin((0.9/l)*t)*sin((0.9/l)*t);
+}
+
 /* printing metadata */ 
 #define PRINTER(name) std::cout << "#" << #name << " = " << name << std::endl;
 
@@ -23,9 +28,6 @@ int main(int argc, char *argv[]){
 	/* defining output files */
 	ofstream File;
 	string xFile;
-	string cFile;
-	string sigmaFile;
-	string datafolder;
 
 	/* helper variables */
 	double rand;
@@ -39,10 +41,7 @@ int main(int argc, char *argv[]){
 	dt = stod(argv[3]);
 	tmax = stod(argv[4]);
 	npart = stoi(argv[5]);
-	datafolder = argv[6];
-	xFile = datafolder+"xfile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt";
-	cFile = datafolder+"cfile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt";
-	sigmaFile = datafolder+"sigmafile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt";
+	xFile = argv[6];
 	
 	double x[npart];
 	double sigma[npart];
@@ -66,15 +65,16 @@ int main(int argc, char *argv[]){
 		/* using hit and miss method to generate random numbers with distribution f(x)=sin^2(x) */
 		t = distx(rng);
 		s = dist(rng);
-		while (sin(pi/l*t)*sin(pi/l*t) < s){
+		while (initx_guitare(t,l,pi) < s){
 			t = distx(rng);
 			s = dist(rng);
 		}
 		x[i] = t;
 		rand = dist(rng);
-		c[i] = initc_2opt(rand);
+		c[i] = 1;
 		rand = dist(rng);
 		sigma[i] = initsigma(rand);
+		/* sigma[i] = 1; */
 		epsilon[i] = 1.01*c[i]*dt;
 	}
 	
@@ -90,15 +90,15 @@ int main(int argc, char *argv[]){
 		
 		}
 		/* writing out for every 100 steps */
-		if (tt%10 == 0){
+		if (tt%100 == 0){
 			/* writing the data out for first particle*/
-			writefunc0(xFile,x[0],cFile,c[0],sigmaFile,sigma[0]);
+			writefunc0(xFile,x[0]);
 			/* writing the data out*/
 			for (int part=1; part < npart-1; part++){
-				writefunc(xFile,x[part],cFile,c[part],sigmaFile,sigma[part]);
+				writefunc(xFile,x[part]);
 			}
 			/* writing the data out for last particle*/
-			writefunc_end(xFile,x[npart-1],cFile,c[npart-1],sigmaFile,sigma[npart-1]);
+			writefunc_end(xFile,x[npart-1]);
 		}
 		tt++;
 	}

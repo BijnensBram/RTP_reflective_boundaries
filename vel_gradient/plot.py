@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-xdata = np.loadtxt("./data/pulse_velgrad.txt",delimiter=";")
+xdata = np.loadtxt("./data/velgrad_1.txt",delimiter=";")
 # cdata = np.loadtxt("./data/cfile_a_0.100000_l_2.000000_dt_0.005000_tmax_50.000000_npart_10000.txt",delimiter=";")
 # sigmadata = np.loadtxt("./data/sigmafile_a_0.100000_l_2.000000_dt_0.005000_tmax_50.000000_npart_10000.txt",delimiter=";")
 
