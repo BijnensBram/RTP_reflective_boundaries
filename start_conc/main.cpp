@@ -72,6 +72,7 @@ int main(int argc, char *argv[]){
 		x[i] = t;
 		rand = dist(rng);
 		c[i] = initc_2opt(rand);
+		/* cout << c[i] << endl; */
 		/* c[i] = 1; */
 		rand = dist(rng);
 		sigma[i] = initsigma(rand);
@@ -91,7 +92,7 @@ int main(int argc, char *argv[]){
 		
 		}
 		/* writing out for every 100 steps */
-		if (tt%10 == 0){
+		if (tt%100 == 0){
 			/* writing the data out for first particle*/
 			writefunc0(xFile,x[0]);
 			/* writing the data out*/
