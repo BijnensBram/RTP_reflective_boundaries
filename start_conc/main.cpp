@@ -10,7 +10,7 @@ using namespace std;
 
 double initx_guitare(double t, double l, double pi){
 	/* return 5*sin((pi/l)*t)*sin((pi/l)*t)+sin((0.313*pi/l)*t)*sin((0.313*pi/l)*t)+sin((2/l)*t)*sin((2/l)*t)+sin((3/l)*t)*sin((3/l)*t)+sin((5/l)*t)*sin((5/l)*t)+sin((1/l)*t)*sin((1/l)*t); */
-	return sin((0.9/l)*t)*sin((0.9/l)*t);
+	return sin((2*pi/l)*t)*sin((2*pi/l)*t);
 }
 
 /* printing metadata */ 
@@ -71,7 +71,8 @@ int main(int argc, char *argv[]){
 		}
 		x[i] = t;
 		rand = dist(rng);
-		c[i] = 1;
+		c[i] = initc_2opt(rand);
+		/* c[i] = 1; */
 		rand = dist(rng);
 		sigma[i] = initsigma(rand);
 		/* sigma[i] = 1; */
@@ -90,7 +91,7 @@ int main(int argc, char *argv[]){
 		
 		}
 		/* writing out for every 100 steps */
-		if (tt%100 == 0){
+		if (tt%10 == 0){
 			/* writing the data out for first particle*/
 			writefunc0(xFile,x[0]);
 			/* writing the data out*/
