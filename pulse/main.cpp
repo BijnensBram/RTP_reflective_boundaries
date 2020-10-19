@@ -25,10 +25,6 @@ int main(int argc, char *argv[]){
 	/* defining output files */
 	ofstream File;
 	string xFile;
-	string cFile;
-	string sigmaFile;
-	string datafolder;
-	string xfilename;
 
 	/* helper variables */
 	double rand;
@@ -41,12 +37,7 @@ int main(int argc, char *argv[]){
 	dt = stod(argv[3]);
 	tmax = stod(argv[4]);
 	npart = stoi(argv[5]);
-	datafolder = argv[6];
-	xfilename = argv[7];
-	xFile = datafolder+xfilename;
-	/* xFile = datafolder+"xfile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt"; */
-	cFile = datafolder+"cfile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt";
-	sigmaFile = datafolder+"sigmafile_a_"+to_string(a)+"_l_"+to_string(l)+"_dt_"+to_string(dt)+"_tmax_"+to_string(tmax)+"_npart_"+to_string(npart)+".txt";
+	xFile = argv[6];
 	
 	npulse = int(npart/5);
 	double x[npart];
@@ -60,8 +51,7 @@ int main(int argc, char *argv[]){
 	std::uniform_real_distribution<double> dist(0,1);
 	std::uniform_real_distribution<double> distx(0,l);
 	std::uniform_int_distribution<int> distindex(0,npart-1);
-	std::normal_distribution<double> distpulse(l/2,l/20);
-
+	std::normal_distribution<double> distpulse(l/2,l/12);
 	/* print input parameters */
 	PRINTER(a);
 	PRINTER(l);
@@ -102,13 +92,16 @@ int main(int argc, char *argv[]){
 		/* writing out for every 100 steps */
 		if (tt%10 == 0){
 			/* writing the data out for first particle*/
-			writefunc0(xFile,x[0],cFile,c[0],sigmaFile,sigma[0]);
+			/* writefunc0(xFile,x[0],cFile,c[0],sigmaFile,sigma[0]); */
+			writefunc0(xFile,x[0]);
 			/* writing the data out*/
 			for (int part=1; part < npart-1; part++){
-				writefunc(xFile,x[part],cFile,c[part],sigmaFile,sigma[part]);
+				/* writefunc(xFile,x[part],cFile,c[part],sigmaFile,sigma[part]); */
+				writefunc(xFile,x[part]);
 			}
 			/* writing the data out for last particle*/
-			writefunc_end(xFile,x[npart-1],cFile,c[npart-1],sigmaFile,sigma[npart-1]);
+			/* writefunc_end(xFile,x[npart-1],cFile,c[npart-1],sigmaFile,sigma[npart-1]); */
+			writefunc_end(xFile,x[npart-1]);
 		}
 		tt++;
 	}
